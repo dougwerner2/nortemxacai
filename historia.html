@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nossa História - Norte Mix Açaí</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --primary-dark: #1B5E20;
+            --accent: #FF9800;
+            --background: #0f0518;
+            /* Dark theme to match the image vibe */
+            --surface: rgba(255, 255, 255, 0.05);
+            --surface-hover: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-secondary: #e0e0e0;
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #050805;
+            background-image: url('./fundo2.jpg');
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Overlay removed to show clean background image */
+
+        /* Removed animated background elements as per new design */
+
+        /* Updated Header matching index.html */
+        .header-banner {
+            background: rgba(15, 5, 24, 0.95);
+            color: white;
+            padding: 20px 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            background: white;
+        }
+
+        .header-text h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Glass Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            /* Muito mais transparente */
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            /* Blur reduzido para ver o fundo */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            /* Borda mais suave */
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            /* Sombra mais leve */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: var(--surface-hover);
+            box-shadow: 0 15px 40px rgba(46, 125, 50, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-light);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .card.green-accent::before {
+            background: #2E7D32;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-subtitle {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Two Column Layout */
+        .flex-row {
+            display: flex;
+            gap: 30px;
+        }
+
+        .flex-col {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .flex-row {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .card-title {
+                font-size: 1.6rem;
+            }
+
+            .header-banner {
+                padding: 15px;
+            }
+        }
+
+        /* Muiraquitã Section Details */
+        .muiraquita-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.5));
+            animation: pulseLogo 3s infinite;
+        }
+
+        @keyframes pulseLogo {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.5));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 20px #2E7D32);
+            }
+
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.5));
+            }
+        }
+
+        .legend-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .legend-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+        }
+
+        /* Efeito de expansão das caixas (Modal) */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .card {
+            cursor: pointer;
+            /* Indica que é clicável */
+        }
+
+        .card.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            width: 90vw;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            z-index: 1000;
+            background: rgba(15, 5, 24, 0.98);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: default;
+            margin: 0;
+            padding: 50px 40px;
+            /* Mais espaço para leitura */
+            /* Esconde a barra de rolagem mas permite scroll */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        .card.expanded::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card.expanded::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+
+        .card.expanded:hover {
+            transform: translate(-50%, -50%) !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            background: rgba(15, 5, 24, 0.98);
+        }
+
+        .card-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .card-close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .card.expanded .card-close-btn {
+            display: flex;
+        }
+
+        /* Dica visual (ícone de expandir) */
+        .expand-hint {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .card:hover .expand-hint {
+            opacity: 1;
+        }
+
+        .card.expanded .expand-hint {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Removed bg-shapes div -->
+
+    <header class="header-banner" id="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <div class="header-text">
+                    <h1 style="text-align: left;">Nossa História</h1>
+                    <p style="text-align: left;">Conheça nossas raízes</p>
+                </div>
+            </div>
+            <a href="index.html" class="icon-btn"
+                style="text-decoration: none; flex-direction: row; gap: 8px; padding: 10px 16px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                <span style="font-size: 0.9rem; font-weight: 700;">Voltar</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="hero" data-aos="fade-down" data-aos-duration="1000">
+            <h1>Nossa Logo e Seus Significados!</h1>
+            <p>Conheça a essência, a cultura e a tradição que carregamos em cada detalhe do Norte Mix Açaí.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up">
+            <span class="card-subtitle">Nossa Origem</span>
+            <h2 class="card-title">NORTE</h2>
+            <p>O Norte é a região de origem dos nossos produtos e também das nossas raízes. Somos da cidade de
+                Castanhal, no estado do Pará, localizada no Nordeste paraense, a aproximadamente 70 km de Belém.</p>
+            <p>É de lá que vem a nossa essência, nossa cultura e os sabores que hoje compartilhamos aqui em Navegantes.
+                Carregamos conosco o orgulho da nossa terra e a missão de levar o verdadeiro sabor do Norte para mais
+                pessoas.</p>
+        </div>
+
+        <div class="flex-row">
+            <div class="card flex-col" data-aos="fade-right" data-aos-delay="100">
+                <span class="card-subtitle">Nossa Proposta</span>
+                <h2 class="card-title">PRODUTOS AMAZÔNICOS</h2>
+                <p>A proposta e o grande desafio da nossa loja é oferecer uma ampla variedade de produtos das regiões
+                    Norte e Nordeste, valorizando sabores, tradições e culturas que fazem parte da nossa identidade.</p>
+                <p>Buscamos trazer para Navegantes o verdadeiro sabor da nossa terra, mantendo qualidade, procedência e
+                    autenticidade em cada produto.</p>
+            </div>
+
+            <div class="card flex-col" data-aos="fade-left" data-aos-delay="200">
+                <span class="card-subtitle">Nosso Mix de Produtos</span>
+                <h2 class="card-title">MIX</h2>
+                <p>Temos um Mix de variedades de produtos em nossa loja. Os produtos que comercializamos preservam
+                    sempre em qualidade, variedades e novidades.</p>
+            </div>
+        </div>
+
+        <div class="card" data-aos="fade-up">
+            <span class="card-subtitle">Norte Mix Açaí</span>
+            <h2 class="card-title">AÇAÍ</h2>
+            <p>O açaí é o nosso carro-chefe! Atendemos especialmente o público do Norte que vem para a região Sul a
+                trabalho e em busca de qualidade de vida.</p>
+            <p>Vendemos no varejo e no atacado, sempre mantendo um produto fresco, selecionado e de alta qualidade, com
+                o verdadeiro sabor da Amazônia.</p>
+        </div>
+
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+            <span class="card-subtitle">Nossa História</span>
+            <h2 class="card-title">Navegantes - SC</h2>
+            <p><strong>Norte Mix Açaí Em Navegantes</strong>, cidade que nos acolheu de braços abertos, chegamos no dia
+                9 de março de 2020, iniciando nossa trajetória como distribuidora de polpas de açaí.</p>
+            <p>Com o tempo, surgiu a necessidade de ir além. Assim nasceu a Norte Mix Açaí, trazendo não apenas o
+                verdadeiro açaí da Amazônia, mas também produtos típicos do Norte. Hoje oferecemos comidas tradicionais
+                do nosso querido estado do Pará, como o nosso delicioso tacacá, além de outras especialidades que
+                carregam sabor, tradição e identidade.</p>
+            <p><em>Mais que uma loja, somos um pedaço do Norte na região Sul.</em></p>
+        </div>
+
+        <div class="card green-accent" data-aos="fade-up">
+            <div style="text-align: center;">
+                <svg class="muiraquita-logo" viewBox="0 0 100 100" fill="none" stroke="#2E7D32" stroke-width="4"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M50 10 C30 10 20 25 20 40 C20 60 40 80 50 90 C60 80 80 60 80 40 C80 25 70 10 50 10 Z">
+                    </path>
+                    <path d="M35 30 L35 40 M65 30 L65 40"></path>
+                    <path d="M40 60 Q50 70 60 60"></path>
+                    <path d="M20 40 Q10 50 20 60 M80 40 Q90 50 80 60"></path>
+                </svg>
+            </div>
+            <span class="card-subtitle" style="color: #4CAF50;">Amuleto Sagrado da Cultura Amazônica</span>
+            <h2 class="card-title">A Lenda do Muiraquitã</h2>
+            <p>Muiraquitãs ou muyrakytãs (do tupi) são artefatos talhados em pedra, chamada de amazonita, representando
+                animais (especialmente sapos, mas também tartarugas ou serpentes). Teriam sido usados pelos povos
+                indígenas Tapajós e Konduri, que habitavam o Baixo Amazonas até a chegada do colonizador europeu, como
+                amuletos, símbolos de poder, e ainda como material para compra e troca de objetos valiosos.</p>
+
+            <hr>
+
+            <div class="legend-box" data-aos="fade-right">
+                <div class="legend-title">Etimologia</div>
+                <p>O termo pode ter origem do tupi <em>pu'ir-a(w)ki-(i)tã</em> ou <em>mu'ir-a(w)ki-(i)tã</em> (pu'ir ou
+                    mu'ir = "missangas", "contas", "enfeites", etc; a(w)ki = "mexer", "usar", "tocar"; itã = espécie de
+                    sapo ou rã).</p>
+            </div>
+
+            <div class="legend-box" data-aos="fade-left">
+                <div class="legend-title">Lendas das Índias Icamiabas</div>
+                <p>As índias Icamiabas, ou Amazonas de Orellana, eram mulheres guerreiras, sem maridos, que habitavam o
+                    Baixo Amazonas. Uma vez ao ano, nas fontes do rio Nhamundá, na serra Yacy-taperê (serra da lua),
+                    onde havia um lago, Yacy-uaruá (espelho da lua), faziam uma festa em nome de Iacinará ou Iaci, a
+                    lua.</p>
+                <p>Após dormirem com os Guacaris, homens de outra tribo especialmente convidados para a festividade, as
+                    índias mergulhavam no lago e traziam um barro esverdeado com o qual modelavam muiraquitãs, que eram
+                    oferecidos como amuletos aos guacaris.</p>
+            </div>
+
+            <div class="legend-box" data-aos="fade-right">
+                <div class="legend-title">Segundo os Índios Uaupés</div>
+                <p>No rio Uaupés, havia um lago onde morava uma anciã, a mãe do muiraquitã. Certa manhã, ela se
+                    transformou numa serpente, e foi morta por um homem. O rio imediatamente inundou, afogando toda a
+                    tribo, restando apenas a marca da anciã, o muiraquitã.</p>
+            </div>
+
+            <p style="margin-top: 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                <em>Curiosidade: O Muiraquitã aparece do lado direito de Mário de Andrade na cédula de 500 mil
+                    cruzeiros!</em>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- AOS Animation JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize animations on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 1000,
+                easing: 'ease-out-cubic',
+                once: false,
+                offset: 80,
+                delay: 100,
+            });
+
+            // Parallax effect on scroll for cards
+            window.addEventListener('scroll', function () {
+                const header = document.getElementById('main-header');
+                const scrollPos = window.scrollY;
+
+                if (scrollPos > 50) {
+                    header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8)';
+                } else {
+                    header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
+                }
+            });
+
+            // Card Expansion Logic
+            const cards = document.querySelectorAll('.card');
+            const overlay = document.getElementById('overlay');
+            let activeCard = null;
+
+            // Add close button and expand hint to all cards
+            cards.forEach(card => {
+                // Add close button
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'card-close-btn';
+                closeBtn.innerHTML = '&times;';
+                closeBtn.setAttribute('title', 'Fechar');
+                card.appendChild(closeBtn);
+
+                // Add expand hint
+                const hint = document.createElement('div');
+                hint.className = 'expand-hint';
+                hint.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg> Ler mais';
+                card.appendChild(hint);
+
+                // Click event for the card
+                card.addEventListener('click', function (e) {
+                    // Ignore clicks on close button
+                    if (e.target === closeBtn || closeBtn.contains(e.target)) return;
+
+                    if (!card.classList.contains('expanded')) {
+                        // Close any currently active card
+                        if (activeCard) {
+                            closeCard(activeCard);
+                        }
+
+                        // Expand this card
+                        card.classList.add('expanded');
+                        overlay.classList.add('active');
+                        activeCard = card;
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+                    }
+                });
+
+                // Click event for close button
+                closeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Previne o clique de propagar para o card
+                    closeCard(card);
+                });
+            });
+
+            // Close when clicking overlay
+            overlay.addEventListener('click', function () {
+                if (activeCard) {
+                    closeCard(activeCard);
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && activeCard) {
+                    closeCard(activeCard);
+                }
+            });
+
+            function closeCard(card) {
+                card.classList.remove('expanded');
+                overlay.classList.remove('active');
+                activeCard = null;
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+    </script>
+</body>
+
+</html>

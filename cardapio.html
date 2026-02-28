@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cardápio Digital - Norte Mix Açaí</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Modernized Palette matching index.html */
+            --primary: #5e1785;
+            --primary-light: #7e2cb0;
+            --primary-dark: #3a0e52;
+            --accent: #FF9800;
+            --background: #FAFAFA;
+            --surface: #FFFFFF;
+            --text-main: #1a1a1a;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #f4f4f9, #eaeafa, #f4f4f9, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            /* Avoid scrolling while reading */
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Top Header */
+        .header-banner {
+            width: 100%;
+            background: url('./cabeçalho.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(30, 30, 30, 0.5) 100%);
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            z-index: -1;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Flipbook Container */
+        .flipbook-container {
+            width: 100%;
+            height: calc(100vh - 60px);
+            /* Subtract header height */
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* changed from center to allow scrolling */
+            position: relative;
+            overflow: auto;
+            /* Allow scrolling when zoomed */
+            padding-bottom: 100px;
+            /* Space for nav controls */
+        }
+
+        #zoom-area {
+            transform-origin: top center;
+            transition: transform 0.3s ease;
+            margin: 20px auto;
+            /* padding around book */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Loading Screen */
+        #loading {
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            animation: pulseText 2s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        @keyframes pulseText {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.98);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: scale(0.98);
+            }
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(94, 23, 133, 0.1);
+            border-top-color: var(--primary);
+            border-bottom-color: var(--primary-light);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Page Styles applied by JS */
+        .page {
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            /* Ensure canvas stays inside */
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Navigation Controls Overlay */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        /* Zoom Controls Overlay */
+        .zoom-controls {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .zoom-btn {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--primary);
+            border: 1px solid rgba(94, 23, 133, 0.2);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .zoom-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(94, 23, 133, 0.15);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .zoom-btn:active {
+            transform: scale(0.9) translateY(0);
+        }
+
+        .nav-btn {
+            background: rgba(94, 23, 133, 0.9);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(94, 23, 133, 0.3);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(94, 23, 133, 0.4);
+            background: var(--primary);
+        }
+
+        .nav-btn:active:not(:disabled) {
+            transform: scale(0.9) translateY(0);
+        }
+
+        .nav-btn:disabled {
+            background: rgba(200, 200, 200, 0.7);
+            color: #888;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Add shadow specifically to the flipbook element for realistic book depth */
+        #flipbook {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            /* subtle rounding simulating paper edges */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-banner">
+        <a href="index.html" class="back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Voltar
+        </a>
+        <h1 class="header-title">Cardápio Digital</h1>
+        <div style="width: 80px;"></div> <!-- Spacer for centering -->
+    </div>
+
+    <div class="flipbook-container" id="flipbook-container">
+        <!-- Floating Zoom Controls -->
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomIn()" title="Aumentar Zoom">➕</button>
+            <button class="zoom-btn" onclick="zoomReset()" title="Zoom Original"
+                style="font-size:0.9rem; font-weight:bold;">1x</button>
+            <button class="zoom-btn" onclick="zoomOut()" title="Diminuir Zoom">➖</button>
+        </div>
+
+        <div id="loading">
+            <div class="spinner"></div>
+            Carregando Cardápio...
+        </div>
+
+        <div id="zoom-area">
+            <div id="flipbook">
+                <!-- Pages will be injected here by JS -->
+            </div>
+        </div>
+
+        <div class="nav-controls" id="nav-controls" style="display: none;">
+            <button class="nav-btn" id="btn-prev" onclick="turnPrev()">❮</button>
+            <button class="nav-btn" id="btn-next" onclick="turnNext()">❯</button>
+        </div>
+    </div>
+
+    <!-- PDF.js for reading the PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+    <!-- StPageFlip for the book effect -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+
+    <!-- PDF Base64 Data (Generated to avoid CORS on local files) -->
+    <script src="cardapio_base64.js"></script>
+
+    <script>
+        // Set worker for PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        let pageFlip = null;
+
+        async function initFlipbook() {
+            try {
+                // 1. Load the PDF document from base64
+                const pdfData = atob(pdfBase64);
+                const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+
+                const flipbookEl = document.getElementById('flipbook');
+
+                // Keep track of rendered canvases
+                const canvases = [];
+
+                // 2. Render each page to an in-memory canvas
+                for (let i = 1; i <= numPages; i++) {
+                    const page = await pdf.getPage(i);
+
+                    // Render using a scale that provides good quality but fits mobile
+                    const viewport = page.getViewport({ scale: 1.5 });
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+
+                    await page.render(renderContext).promise;
+                    canvases.push(canvas);
+
+                    // Create HTML structure for StPageFlip
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'page';
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'page-content';
+
+                    // Clone canvas to put in DOM
+                    const displayCanvas = document.createElement('canvas');
+                    displayCanvas.width = canvas.width;
+                    displayCanvas.height = canvas.height;
+                    displayCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+                    contentDiv.appendChild(displayCanvas);
+                    pageDiv.appendChild(contentDiv);
+                    flipbookEl.appendChild(pageDiv);
+                }
+
+                // Remove loading screen
+                document.getElementById('loading').style.display = 'none';
+
+                // 3. Initialize StPageFlip
+                // Calculate optimal dimensions based on screen size
+                const isMobile = window.innerWidth <= 768;
+
+                // Base dimensions on the first page's aspect ratio
+                const baseWidth = canvases[0].width;
+                const baseHeight = canvases[0].height;
+                const ratio = baseWidth / baseHeight;
+
+                // Setup flipbook
+                const flipBookElement = document.getElementById('flipbook');
+
+                pageFlip = new St.PageFlip(flipBookElement, {
+                    width: 400, // Base width
+                    height: 400 / ratio, // Calculate height based on ratio
+                    size: isMobile ? "stretch" : "fixed",
+                    minWidth: 300,
+                    maxWidth: 800,
+                    minHeight: 400,
+                    maxHeight: 1200,
+                    showCover: true, // First page acts as cover
+                    mobileScrollSupport: false,
+                    maxShadowOpacity: 0.5,
+                    usePortrait: false // Force double page spread (frente e verso)
+                });
+
+                // Load the HTML pages into the flipbook
+                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+                // Show controls
+                document.getElementById('nav-controls').style.display = 'flex';
+                updateControls(0, numPages);
+
+                // Listen to events to update buttons
+                pageFlip.on('flip', (e) => {
+                    updateControls(e.data, numPages);
+                });
+
+            } catch (error) {
+                console.error("Error generating flipbook:", error);
+                document.getElementById('loading').innerHTML = `
+                    <div style="color: red; text-align: center; padding: 20px;">
+                        Erro ao carregar o cardápio em PDF.<br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function updateControls(currentPageIndex, totalPages) {
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+
+            btnPrev.disabled = currentPageIndex === 0;
+            // Depending on view mode (single/double), the end page index logic varies,
+            // but StPageFlip handles the limits gracefully. We disable visually if we think we are at end.
+            btnNext.disabled = currentPageIndex >= totalPages - 1;
+        }
+
+        function turnNext() {
+            if (pageFlip) pageFlip.flipNext();
+        }
+
+        function turnPrev() {
+            if (pageFlip) pageFlip.flipPrev();
+        }
+
+        // Zoom logic
+        let currentScale = 1;
+        const zoomStep = 0.2;
+        const maxZoom = 2.4;
+        const minZoom = 0.6;
+
+        function applyZoom() {
+            document.getElementById('zoom-area').style.transform = `scale(${currentScale})`;
+        }
+
+        function zoomIn() {
+            if (currentScale < maxZoom) {
+                currentScale += zoomStep;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentScale > minZoom) {
+                currentScale -= zoomStep;
+                applyZoom();
+            }
+        }
+
+        function zoomReset() {
+            currentScale = 1;
+            applyZoom();
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initFlipbook);
+
+        // Resize handler to adjust flipbook size if device rotates
+        window.addEventListener('resize', () => {
+            if (pageFlip) {
+                zoomReset(); // reset zoom on resize to avoid glitches
+                pageFlip.update();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
